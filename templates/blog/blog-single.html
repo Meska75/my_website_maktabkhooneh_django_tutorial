@@ -47,11 +47,12 @@
                 <a href="#">Mark wiens</a> <span class="lnr lnr-user"></span>
               </p>
               <p class="date col-lg-12 col-md-12 col-6">
-                <a href="#">12 Dec, 2017</a>
+                <a href="#">{{posts.published_date}}</a>
                 <span class="lnr lnr-calendar-full"></span>
               </p>
               <p class="view col-lg-12 col-md-12 col-6">
-                <a href="#">1.2M Views</a> <span class="lnr lnr-eye"></span>
+                <a href="#">{{posts.counted_view}} Views</a>
+                <span class="lnr lnr-eye"></span>
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">
                 <a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span>
@@ -73,72 +74,8 @@
             </div>
           </div>
           <div class="col-lg-9 col-md-9">
-            <h3 class="mt-20 mb-20">
-              Astronomy Binoculars A Great Alternative
-            </h3>
-            <p class="excert">
-              MCSE boot camps have its supporters and its detractors. Some
-              people do not understand why you should have to spend money on
-              boot camp when you can get the MCSE study materials yourself at a
-              fraction.
-            </p>
-            <p>
-              Boot camps have its supporters and its detractors. Some people do
-              not understand why you should have to spend money on boot camp
-              when you can get the MCSE study materials yourself at a fraction
-              of the camp price. However, who has the willpower to actually sit
-              through a self-imposed MCSE training. who has the willpower to
-              actually sit through a self-imposed
-            </p>
-            <p>
-              Boot camps have its supporters and its detractors. Some people do
-              not understand why you should have to spend money on boot camp
-              when you can get the MCSE study materials yourself at a fraction
-              of the camp price. However, who has the willpower to actually sit
-              through a self-imposed MCSE training. who has the willpower to
-              actually sit through a self-imposed
-            </p>
-          </div>
-          <div class="col-lg-12">
-            <div class="quotes">
-              MCSE boot camps have its supporters and its detractors. Some
-              people do not understand why you should have to spend money on
-              boot camp when you can get the MCSE study materials yourself at a
-              fraction of the camp price. However, who has the willpower to
-              actually sit through a self-imposed MCSE training.
-            </div>
-            <div class="row mt-30 mb-30">
-              <div class="col-6">
-                <img
-                  class="img-fluid"
-                  src="{% static 'img/blog/post-img1.jpg' %}"
-                  alt=""
-                />
-              </div>
-              <div class="col-6">
-                <img
-                  class="img-fluid"
-                  src="{% static 'img/blog/post-img2.jpg' %}"
-                  alt=""
-                />
-              </div>
-              <div class="col-lg-12 mt-30">
-                <p>
-                  MCSE boot camps have its supporters and its detractors. Some
-                  people do not understand why you should have to spend money on
-                  boot camp when you can get the MCSE study materials yourself
-                  at a fraction of the camp price. However, who has the
-                  willpower.
-                </p>
-                <p>
-                  MCSE boot camps have its supporters and its detractors. Some
-                  people do not understand why you should have to spend money on
-                  boot camp when you can get the MCSE study materials yourself
-                  at a fraction of the camp price. However, who has the
-                  willpower.
-                </p>
-              </div>
-            </div>
+            <h3 class="mt-20 mb-20">{{posts.title}}</h3>
+            <p class="excert">{{posts.content}}</p>
           </div>
         </div>
         <div class="navigation-area">
@@ -161,15 +98,27 @@
               </div>
               <div class="detials">
                 <p>Prev Post</p>
-                <a href="#"><h4>Space The Final Frontier</h4></a>
+                {% if prev_post %}
+                <a href="{% url 'blog:blog-single' pid=prev_post.id %}"
+                  ><h4>{{prev_post.title}}</h4></a
+                >
+                {% else %}
+                <span class="disabled-link">no older post</span>
+                {% endif %}
               </div>
             </div>
             <div
               class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center"
             >
               <div class="detials">
-                <p>Next Post</p>
-                <a href="#"><h4>Telescopes 101</h4></a>
+                <p>next Post</p>
+                {% if next_post %}
+                <a href="{% url 'blog:blog-single' pid=next_post.id %}"
+                  ><h4>{{next_post.title}}</h4></a
+                >
+                {% else %}
+                <span class="disabled-link">no newer posts</span>
+                {% endif %}
               </div>
               <div class="arrow">
                 <a href="#"
