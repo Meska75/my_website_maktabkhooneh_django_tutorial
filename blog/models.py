@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Post (models.Model):
     #author= models.ManyToManyField()
-    #img
+    image = models.ImageField(upload_to='blog/', default='blog/defult.jpg')
     title = models.CharField(max_length= 255)
     content = models.TextField()
     #category = models.
