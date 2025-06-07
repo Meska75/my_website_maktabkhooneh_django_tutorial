@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static blog-tags %} {% block content %}
 
 <!-- start banner Area -->
 <section class="banner-area relative blog-home-banner" id="home">
@@ -96,6 +96,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 posts-list">
+        <p><h4>Published Articles: {% posts_counter %}</h4></p>
         {% for post in posts %}
         <div class="single-post row">
           <div class="col-lg-3 col-md-3 meta-details">
@@ -112,7 +113,7 @@
                 <span class="lnr lnr-calendar-full"></span>
               </p>
               <p class="view col-lg-12 col-md-12 col-6">
-                <a href="#">{{post.counted_view}} Views</a>
+                <a href="#">{% post_view post.id %} Views</a>
                 <span class="lnr lnr-eye"></span>
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">

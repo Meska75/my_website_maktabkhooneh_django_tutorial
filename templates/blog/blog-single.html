@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static blog-tags %} {% block content %}
 
 <!-- start banner Area -->
 <section class="relative about-banner">
@@ -47,7 +47,7 @@
                 <span class="lnr lnr-calendar-full"></span>
               </p>
               <p class="view col-lg-12 col-md-12 col-6">
-                <a href="#">{{posts.counted_view}} Views</a>
+                <a href="#">{% post_view posts.id %} Views</a>
                 <span class="lnr lnr-eye"></span>
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">
