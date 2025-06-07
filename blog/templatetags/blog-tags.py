@@ -1,5 +1,5 @@
 from django import template
-from blog.models import Post
+from blog.models import Post , Category
 from django.utils import timezone
 
 
@@ -25,3 +25,13 @@ def popular_posts():
 def last_posts():
     last_posts = Post.objects.filter(published_date__lte=timezone.now(), status=1).order_by('-published_date')[:3]
     return {'last_posts':last_posts}
+
+@register.inclusion_tag('blog/blog-categories.html')
+def post_categories():
+    posts = Post.objects.filter(published_date__lte=timezone.now(), status=1).order_by('-published_date')
+    categories = Category.objects.all()
+    cat_dict = {}
+    for name in categories:
+        cat_dict[name]=posts.filter(category=name).count()       
+    sorted_cat = sorted(cat_dict.items(), key=lambda item: item[1], reverse=True)
+    return {'categories':dict(sorted_cat)}
