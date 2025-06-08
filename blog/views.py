@@ -1,18 +1,28 @@
 from django.utils import timezone
 from django.shortcuts import render , get_object_or_404
 from blog.models import Post
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
 def blog_view(request, cat_name=None, author_username= None):
+    post = Post.objects.filter(published_date__lte=timezone.now(), status=1)
     if cat_name:
-        post = Post.objects.filter(published_date__lte=timezone.now(), status=1,category__name=cat_name)
+        post = post.filter(category__name=cat_name)
     elif author_username:
-        post = Post.objects.filter(published_date__lte=timezone.now(), status=1,author__username=author_username)
-    else:
-        post = Post.objects.filter(published_date__lte=timezone.now(), status=1)
+        post = post.filter(author__username=author_username)
+    post = Paginator(post,3)
+    try:
+        page_number = request.GET.get('page')
+        post = post.get_page(page_number)
+    except PageNotAnInteger:
+        post = post.get_page(1)
+    except EmptyPage:
+        post = post.get_page(1)
     context = {'posts':post}
     return render(request, 'blog/blog-home.html',context)
+
 
 def blog_single(request,pid):
     post = get_object_or_404(Post,id=pid)
