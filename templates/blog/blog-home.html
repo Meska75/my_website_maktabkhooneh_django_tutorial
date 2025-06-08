@@ -96,7 +96,8 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 posts-list">
-        <p><h4>Published Articles: {% posts_counter %}</h4></p>
+        <p><h4>Published Articles: {% posts_counter posts %}</h4></p>
+        {% if posts %}
         {% for post in posts %}
         <div class="single-post row">
           <div class="col-lg-3 col-md-3 meta-details">
@@ -143,6 +144,9 @@
           </div>
         </div>
         {% endfor %}
+        {% else %}
+        <h3>No results found.</h3>
+        {% endif %}
         <nav class="blog-pagination justify-content-center d-flex">
           <ul class="pagination">
             <li class="page-item">
@@ -171,19 +175,8 @@
       </div>
       <div class="col-lg-4 sidebar-widgets">
         <div class="widget-wrap">
-          <div class="single-sidebar-widget search-widget">
-            <form class="search-form" action="#">
-              <input
-                placeholder="Search Posts"
-                name="search"
-                type="text"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Search Posts'"
-              />
-              <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
-          </div>
 
+          {% include 'blog/blog-search.html' %}
           {% include 'blog/blog_writer.html' %}
           {% popular_posts %}
           {% last_posts %}

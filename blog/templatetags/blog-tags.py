@@ -7,9 +7,9 @@ register = template.Library()
 
 
 @register.simple_tag(name='posts_counter')
-def function():
-    post = Post.objects.filter(published_date__lte=timezone.now(), status=1).count()
-    return post
+def function(posts):
+    post_count = posts.count()
+    return post_count
 
 @register.simple_tag(name='post_view')
 def function(postid):
