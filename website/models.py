@@ -11,4 +11,13 @@ class Contact (models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+    
+    class Meta():
+        ordering = ['-create_date']
 
+class Newsletter(models.Model):
+    email = models.EmailField(max_length= 300)
+    def __str__(self):
+        return self.email
