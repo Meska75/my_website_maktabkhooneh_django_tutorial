@@ -10,14 +10,15 @@ class Contact (models.Model):
     message = models.TextField(null=False)
     create_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now=True)
-
     def __str__(self):
         return self.name
-    
     class Meta():
         ordering = ['-create_date']
 
 class Newsletter(models.Model):
     email = models.EmailField(max_length= 300)
+    create_date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.email
+    class Meta():
+        ordering = ['-create_date']

@@ -4,9 +4,9 @@ from django import forms
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = '__all__'
+        fields = ['name', 'subject', 'email', 'message']
 
 class NewsletterForm(forms.ModelForm):
     class Meta:
         model = Newsletter
-        fields = '__all__'
+        fields = ['email']

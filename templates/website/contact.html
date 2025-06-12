@@ -72,6 +72,16 @@
               />
 
               <input
+                name="subject"
+                placeholder="Enter subject"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Enter subject'"
+                class="common-input mb-20 form-control"
+                required=""
+                type="text"
+              />
+
+              <input
                 name="email"
                 placeholder="Enter email address"
                 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
@@ -82,15 +92,6 @@
                 type="email"
               />
 
-              <input
-                name="subject"
-                placeholder="Enter subject"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Enter subject'"
-                class="common-input mb-20 form-control"
-                required=""
-                type="text"
-              />
             </div>
             <div class="col-lg-6 form-group">
               <textarea
@@ -112,6 +113,13 @@
           </div>
         </form>
       </div>
+        {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
     </div>
   </div>
 </section>

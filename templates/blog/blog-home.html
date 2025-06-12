@@ -115,11 +115,11 @@
                 <span class="lnr lnr-user"></span>
               </p>
               <p class="date col-lg-12 col-md-12 col-6">
-                <a href="#">{{post.published_date|date:"Y-M-j"}}</a>
+                <a href="{% url 'blog:date' date=post.published_date %}">{{post.published_date|date:"Y-M-j"}}</a>
                 <span class="lnr lnr-calendar-full"></span>
               </p>
               <p class="view col-lg-12 col-md-12 col-6">
-                <a href="#">{% post_view post.id %} Views</a>
+                <a>{% post_view post.id %} Views</a>
                 <span class="lnr lnr-eye"></span>
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">
@@ -158,9 +158,13 @@
               </a>
             </li>
             {% endif %} 
-            {% for page_number in posts.paginator.page_range %} 
-            <li class="page-item"> <a href="?page={{page_number}}" class="page-link">{{page_number}}</a></li>  
-            {% endfor %}سس
+            {% for page_number in posts.paginator.page_range %}
+              {% if posts.number == page_number %}
+                <li class="page-item active"> <a href="?page={{page_number}}" class="page-link">{{page_number}}</a></li>
+                {% else %}
+                <li class="page-item"> <a href="?page={{page_number}}" class="page-link">{{page_number}}</a></li>
+                {% endif %}
+            {% endfor %}
             {% if posts.has_next %}
             <li class="page-item">
               <a
@@ -179,38 +183,13 @@
       </div>
       <div class="col-lg-4 sidebar-widgets">
         <div class="widget-wrap">
-          {% include 'blog/blog-search.html' %} {% include
-          'blog/blog_writer.html' %} {% popular_posts %} {% last_posts %} {%
-          post_categories %} {% include 'blog/blog-ads.html' %}
-
-          <div class="single-sidebar-widget newsletter-widget">
-            <h4 class="newsletter-title">Newsletter</h4>
-            <p>
-              Here, I focus on a range of items and features that we use in life
-              without giving them a second thought.
-            </p>
-            <div class="form-group d-flex flex-row">
-              <div class="col-autos">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inlineFormInputGroup"
-                    placeholder="Enter email"
-                    onfocus="this.placeholder = ''"
-                    onblur="this.placeholder = 'Enter email'"
-                  />
-                </div>
-              </div>
-              <a href="#" class="bbtns">Subcribe</a>
-            </div>
-            <p class="text-bottom">You can unsubscribe at any time</p>
-          </div>
+          {% include 'blog/blog-search.html' %}
+          {% include 'blog/blog_writer.html' %}
+          {% popular_posts %}
+          {% last_posts %}
+          {% post_categories %}
+          {% include 'blog/blog-ads.html' %}
+          {% include 'blog/blog-newsletter.html' %}
           <div class="single-sidebar-widget tag-cloud-widget">
             <h4 class="tagcloud-title">Tag Clouds</h4>
             <ul>

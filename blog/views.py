@@ -2,16 +2,22 @@ from django.utils import timezone
 from django.shortcuts import render , get_object_or_404
 from blog.models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
+from datetime import datetime
 
 
 # Create your views here.
 
-def blog_view(request, cat_name=None, author_username= None):
+def blog_view(request, cat_name=None, author_username=None,date=None):
     post = Post.objects.filter(published_date__lte=timezone.now(), status=1)
     if cat_name:
-        post = post.filter(category__name=cat_name)
+        post = post.filter(category__name=cat_name,published_date__lte=timezone.now(), status=1)
     elif author_username:
-        post = post.filter(author__username=author_username)
+        post = post.filter(author__username=author_username,published_date__lte=timezone.now(), status=1)
+    elif date:
+        raw_date = date.split()[0].split('T')[0]
+        date = datetime.strptime(raw_date,"%Y-%m-%d")
+        post = post.filter(published_date__date=date, status=1)
     post = Paginator(post,3)
     try:
         page_number = request.GET.get('page')
@@ -25,8 +31,9 @@ def blog_view(request, cat_name=None, author_username= None):
 
 
 def blog_single(request,pid):
-    post = get_object_or_404(Post,id=pid)
-    all_posts = list(Post.objects.filter(published_date__lte=timezone.now(), status=1))
+    base_query = Post.objects.filter(published_date__lte=timezone.now(), status=1)
+    post = get_object_or_404(base_query,id=pid)
+    all_posts = list(base_query)
     try:
         index = next(i for i, p in enumerate(all_posts) if p.pk == post.pk)
     except StopIteration:

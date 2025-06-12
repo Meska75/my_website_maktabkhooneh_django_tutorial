@@ -1,0 +1,45 @@
+<div class="single-sidebar-widget newsletter-widget">
+  <h4 class="newsletter-title">Newsletter</h4>
+  <p>
+    Here, I focus on a range of items and features that we use in life
+    without giving them a second thought.
+  </p>
+
+  <form action="{% url 'website:newsletter' %}" method="post" class="form-group d-flex flex-row">
+    {% csrf_token %}
+    <div class="col-autos">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </div>
+        </div>
+        <input
+          name="email"
+          type="email"
+          required
+          class="form-control"
+          id="inlineFormInputGroup"
+          placeholder="Enter email"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Enter email'"
+        />
+      </div>
+    </div>
+    <button type="submit" class="bbtns">
+      Subscribe
+    </button>
+  </form>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <p class="text-bottom">You can unsubscribe at any time</p>
+</div>
