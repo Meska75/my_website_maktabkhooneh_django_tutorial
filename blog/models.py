@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -15,7 +17,7 @@ class Post (models.Model):
     title = models.CharField(max_length= 255)
     content = models.TextField()
     category = models.ManyToManyField(Category)
-    #tag
+    tag = TaggableManager()
     counted_view = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
@@ -28,5 +30,22 @@ class Post (models.Model):
     class Meta:
         ordering = ['-created_date']
 
+    def get_absolute_url(self):
+        return reverse ('blog:single', kwargs={'pid':self.id})
 
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    approve = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
     
+    class Meta:
+        ordering = ['-created_date']

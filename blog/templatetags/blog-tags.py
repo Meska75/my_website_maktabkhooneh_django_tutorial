@@ -1,5 +1,5 @@
 from django import template
-from blog.models import Post , Category
+from blog.models import Post , Category , Comment
 from django.utils import timezone
 
 
@@ -10,6 +10,11 @@ register = template.Library()
 def function(posts):
     post_count = posts.count()
     return post_count
+
+@register.simple_tag(name='comments_counter')
+def function(pid):
+    comments = Comment.objects.filter(post=pid , approve=1).count()
+    return comments
 
 @register.simple_tag(name='post_view')
 def function(postid):

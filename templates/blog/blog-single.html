@@ -55,7 +55,7 @@
                 <span class="lnr lnr-eye"></span>
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">
-                <a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span>
+                <a href="#">{{comments.count}} Comments</a> <span class="lnr lnr-bubble"></span>
               </p>
               <ul class="social-links col-lg-12 col-md-12 col-6">
                 <li>
@@ -142,92 +142,31 @@
           </div>
         </div>
         <div class="comments-area">
-          <h4>05 Comments</h4>
+          <h4>{{comments.count}} Comments</h4>
           <div class="comment-list">
+            {% if comments %}
+            {% for comment in comments %}
             <div class="single-comment justify-content-between d-flex">
               <div class="user justify-content-between d-flex">
                 <div class="thumb">
                   <img src="{% static 'img/blog/c1.jpg' %}" alt="" />
                 </div>
                 <div class="desc">
-                  <h5><a href="#">Emilly Blunt</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
+                  <h5><a href="#">{{comment.name}}</a></h5>
+                  <p class="date">{{comment.created_date|date:"d M Y"}}</p>
+                  <p class="comment">{{comment.message}}</p>
                 </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
               </div>
             </div>
           </div>
-          <div class="comment-list left-padding">
+          {% endfor %}
+          {% else %}
             <div class="single-comment justify-content-between d-flex">
               <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'img/blog/c2.jpg' %}" alt="" />
+                <p>No Comments to Show.</p>
                 </div>
-                <div class="desc">
-                  <h5><a href="#">Elsie Cunningham</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
             </div>
-          </div>
-          <div class="comment-list left-padding">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'img/blog/c3.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Annie Stephens</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'img/blog/c4.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Maria Luna</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'img/blog/c5.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Ina Hayes</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
+            {% endif %}
         </div>
         <div class="comment-form">
           <h4>Leave a Comment</h4>
@@ -291,18 +230,10 @@
           <div class="single-sidebar-widget tag-cloud-widget">
             <h4 class="tagcloud-title">Tag Clouds</h4>
             <ul>
-              <li><a href="#">Technology</a></li>
-              <li><a href="#">Fashion</a></li>
-              <li><a href="#">Architecture</a></li>
-              <li><a href="#">Fashion</a></li>
-              <li><a href="#">Food</a></li>
-              <li><a href="#">Technology</a></li>
-              <li><a href="#">Lifestyle</a></li>
-              <li><a href="#">Art</a></li>
-              <li><a href="#">Adventure</a></li>
-              <li><a href="#">Food</a></li>
-              <li><a href="#">Lifestyle</a></li>
-              <li><a href="#">Adventure</a></li>
+              {% for tag in posts.tag.all %}
+              <li><a href="{% url 'blog:tag' tag_name=tag.name %}">{{tag.name}}</a></li>
+              {% endfor %}
+
             </ul>
           </div>
         </div>

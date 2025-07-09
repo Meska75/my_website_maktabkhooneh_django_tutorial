@@ -1,6 +1,6 @@
 from django.utils import timezone
 from django.shortcuts import render , get_object_or_404
-from blog.models import Post
+from blog.models import Post , Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from datetime import datetime
@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Create your views here.
 
-def blog_view(request, cat_name=None, author_username=None,date=None):
+def blog_view(request, cat_name=None, author_username=None,date=None,tag_name=None):
     post = Post.objects.filter(published_date__lte=timezone.now(), status=1)
     if cat_name:
         post = post.filter(category__name=cat_name,published_date__lte=timezone.now(), status=1)
@@ -18,7 +18,9 @@ def blog_view(request, cat_name=None, author_username=None,date=None):
         raw_date = date.split()[0].split('T')[0]
         date = datetime.strptime(raw_date,"%Y-%m-%d")
         post = post.filter(published_date__date=date, status=1)
-    post = Paginator(post,3)
+    elif tag_name:
+        post = post.filter(tag__name__in=[tag_name],published_date__lte=timezone.now(), status=1)
+    post = Paginator(post,3)       
     try:
         page_number = request.GET.get('page')
         post = post.get_page(page_number)
@@ -33,6 +35,7 @@ def blog_view(request, cat_name=None, author_username=None,date=None):
 def blog_single(request,pid):
     base_query = Post.objects.filter(published_date__lte=timezone.now(), status=1)
     post = get_object_or_404(base_query,id=pid)
+    comments = Comment.objects.filter(post=post.id , approve=1).order_by('-created_date')
     all_posts = list(base_query)
     try:
         index = next(i for i, p in enumerate(all_posts) if p.pk == post.pk)
@@ -45,7 +48,7 @@ def blog_single(request,pid):
             next_post = all_posts[index - 1]
         if index < len(all_posts) - 1:
             previous_post = all_posts[index + 1]
-    context = {'posts':post, 'prev_post': previous_post, 'next_post':next_post}
+    context = {'posts':post, 'prev_post': previous_post, 'next_post':next_post , 'comments':comments}
     post.counted_view += 1
     post.save()
     return render(request, 'blog/blog-single.html', context)
