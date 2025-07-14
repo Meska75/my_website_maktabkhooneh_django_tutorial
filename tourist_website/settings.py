@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django.contrib.sites',
     'blog.apps.BlogConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 # site framework

@@ -149,7 +149,7 @@
             <div class="single-comment justify-content-between d-flex">
               <div class="user justify-content-between d-flex">
                 <div class="thumb">
-                  <img src="{% static 'img/blog/c1.jpg' %}" alt="" />
+                  <img src="{% static 'img/blog/c1.jpg' %}" alt="" width="60" height="60" />
                 </div>
                 <div class="desc">
                   <h5><a href="#">{{comment.name}}</a></h5>
@@ -170,13 +170,15 @@
         </div>
         <div class="comment-form">
           <h4>Leave a Comment</h4>
-          <form>
+          <form method="post" action='{% url "blog:blog-single" pid=posts.id %}'>
+            {% csrf_token %}
+            <input type="hidden" name="post" value={{posts.id}}>
             <div class="form-group form-inline">
               <div class="form-group col-lg-6 col-md-12 name">
                 <input
                   type="text"
                   class="form-control"
-                  id="name"
+                  name="name"
                   placeholder="Enter Name"
                   onfocus="this.placeholder = ''"
                   onblur="this.placeholder = 'Enter Name'"
@@ -186,7 +188,7 @@
                 <input
                   type="email"
                   class="form-control"
-                  id="email"
+                  name="email"
                   placeholder="Enter email address"
                   onfocus="this.placeholder = ''"
                   onblur="this.placeholder = 'Enter email address'"
@@ -197,7 +199,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="subject"
+                name="subject"
                 placeholder="Subject"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Subject'"
@@ -214,7 +216,7 @@
                 required=""
               ></textarea>
             </div>
-            <a href="#" class="primary-btn text-uppercase">Post Comment</a>
+            <button type="submit" class="primary-btn text-uppercase">Post Comment</button>
           </form>
         </div>
       </div>

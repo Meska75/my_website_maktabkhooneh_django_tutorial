@@ -4,6 +4,8 @@ from blog.models import Post , Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from datetime import datetime
+from blog.forms import CommentForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -33,6 +35,10 @@ def blog_view(request, cat_name=None, author_username=None,date=None,tag_name=No
 
 
 def blog_single(request,pid):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        form.save()
+        messages.add_message(request, messages.SUCCESS, "Your message Successfully sended.")
     base_query = Post.objects.filter(published_date__lte=timezone.now(), status=1)
     post = get_object_or_404(base_query,id=pid)
     comments = Comment.objects.filter(post=post.id , approve=1).order_by('-created_date')
@@ -48,7 +54,8 @@ def blog_single(request,pid):
             next_post = all_posts[index - 1]
         if index < len(all_posts) - 1:
             previous_post = all_posts[index + 1]
-    context = {'posts':post, 'prev_post': previous_post, 'next_post':next_post , 'comments':comments}
+    form = CommentForm()
+    context = {'posts':post, 'prev_post': previous_post, 'next_post':next_post , 'comments':comments , 'commentform': form}
     post.counted_view += 1
     post.save()
     return render(request, 'blog/blog-single.html', context)
