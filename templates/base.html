@@ -43,7 +43,15 @@
       <div class="header-top">
         <div class="container">
           <div class="row align-items-center">
-            <div class="col-lg-6 col-sm-6 col-6 header-top-left"></div>
+            <div class="col-lg-6 col-sm-6 col-6 header-top-left">
+            <ul>
+              {% if request.user.is_authenticated %}
+                <li><a href="#">you logging as {{ request.user.username }}</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:login' %}">log in now</a></li>
+              {% endif %}
+            </ul>
+            </div>
             <div class="col-lg-6 col-sm-6 col-6 header-top-right">
               <div class="header-social">
                 <a href="#"><i class="fa fa-facebook"></i></a>
