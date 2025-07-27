@@ -124,6 +124,16 @@
               </p>
               <p class="comments col-lg-12 col-md-12 col-6">
                 <a href="#">{% comments_counter post.id %} Comments</a> <span class="lnr lnr-bubble"></span>
+              <p class="comments col-lg-12 col-md-12 col-6">
+                {% if post.login_require %}
+                  <i class="fa fa-times text-danger me-2"></i>
+                  <a href="{% url 'accounts:login' %}" class="me-2">Login Required</a>
+                  <i class="fa fa-lock ms-auto"></i>
+                {% else %}
+                  <i class="fa fa-check text-success me-2"></i>
+                  <a href="{% url 'blog:blog-single' pid=post.id %}" class="me-2">Free Content</a>
+                  <i class="fa fa-unlock-alt ms-auto"></i>
+                {% endif %}
               </p>
             </div>
           </div>

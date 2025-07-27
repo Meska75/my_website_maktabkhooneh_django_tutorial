@@ -23,6 +23,7 @@ class Post (models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(null=True)
     update_time = models.DateTimeField(auto_now=True)
+    login_require = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
