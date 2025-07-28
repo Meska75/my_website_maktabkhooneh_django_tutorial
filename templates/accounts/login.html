@@ -28,7 +28,16 @@
 		      	<h3 class="mb-4 text-center">Have an account?</h3>
 		      	<form method="post"  action="{% url 'accounts:login' %}" class="signin-form">
                     {% csrf_token %}
-					{{form.as_p}}
+					<!-- <p>
+						<a href="#" style="color: #ff7474">{{ massege }}</a>
+					</p> -->
+					{{ form.non_field_errors }}
+					<a href="#" style="color: #fff">Username or email:</a>
+					{{ form.username }}
+					{{ form.username.errors }}
+					<a href="#" style="color: #fff">Password:</a>
+					{{ form.password }}
+					{{ form.password.errors }}
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
 	            </div>

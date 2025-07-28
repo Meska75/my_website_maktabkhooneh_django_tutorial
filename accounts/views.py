@@ -10,23 +10,22 @@ from accounts.forms import CustomUserCreationForm
 # Create your views here.
 
 def login_view(request):
-    if not request.user.is_authenticated:
-        if request.method == 'POST':
-            form = AuthenticationForm(request=request, data=request.POST)
-            if form.is_valid():
-                username = form.cleaned_data["username"]
-                password = form.cleaned_data["password"]
-                user = authenticate(request, username=username, password=password)
+    if request.user.is_authenticated:
+        return redirect('/')
+    user = None
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('/')
-        else:
-            msg = "you aren't loggin"     
-        form = AuthenticationForm()
-        context = {'msg':msg, 'form':form}
-        return render(request,'accounts/login.html',context)
     else:
-        return redirect('/')
+        form = AuthenticationForm()
+    context = {'form': form,}
+    return render(request, 'accounts/login.html', context)
 
 @login_required
 def logout_view(request):
