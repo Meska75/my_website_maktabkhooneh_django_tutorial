@@ -15,19 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@c=$jinf)surka=^nb04i1s4n%@)r30c#u%2-762wpj3^b_qb_'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -127,18 +114,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tourist_website.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -173,15 +148,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = "static"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "media"
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -192,11 +164,6 @@ EMAIL_HOST_USER = 'mohammad.eska34@gmail.com'
 EMAIL_HOST_PASSWORD = 'hqbpaskgjitszhwf'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
-STATICFILES_DIRS = [
-    BASE_DIR / "statics",
-]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -205,6 +172,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = ["127.0.0.1",
 ]
 
-X_FRAME_OPTIONS = "SAMEORIGIN"
-
-CSRF_COOKIE_SECURE = True
